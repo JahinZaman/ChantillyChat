@@ -1,0 +1,12 @@
+.messages {
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.div1 {
+  display: inline-block;
+}
