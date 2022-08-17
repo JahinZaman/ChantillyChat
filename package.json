@@ -4,8 +4,7 @@
   "description": "server.js",
   "main": "server.js",
   "scripts": {
-    "devStart": "nodemon ./server/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "devStart": "nodemon ./server/server.js"
   },
   "author": "JahinZ",
   "license": "ISC",
