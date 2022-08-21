@@ -4,8 +4,7 @@
   "description": "server.js",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "start": "nodemon server/server.js"
   },
   "author": "JahinZ",
   "license": "ISC",
@@ -23,6 +22,12 @@
     "mongoose": "^6.5.1",
     "nodemon": "^2.0.19",
     "socket.io": "^4.5.1",
-    "yarn": "^1.22.19"
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6"
+  },
+  "engines": {
+    "node": ">=16.13.1",
+    "npm": ">=8.2.0"
   }
 }
