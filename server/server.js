@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const { chats } = require("./data/data.js");
-const connectDB = require("./config/db.js");
+
 const app = express();
 const colors = require("colors");
 const chatRoutes = require("./routes/chatRoutes");
@@ -10,15 +10,19 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const messageRoutes = require("./routes/messageRoutes");
 const path = require("path");
 dotenv.config();
+const connectDB = require("./config/db.js");
+
 connectDB();
 app.use(express.json());
 //
 //
 //
 const PORT = process.env.PORT || 4000;
+const host = "0.0.0.0";
 const server = app.listen(
   PORT,
-  console.log(`Server started on port ${PORT}`.yellow.bold)
+  host,
+  console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
 
 app.use("/api/user", userRoutes);
