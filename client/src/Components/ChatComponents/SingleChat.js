@@ -19,7 +19,7 @@ import UpdateGroupChatModal from "./UpdateGroupChatModal";
 import "./styles.css";
 import io from "socket.io-client";
 
-const ENDPOINT = "https://newmernchatapp.herokuapp.com/";
+const ENDPOINT = "https://jahin-mern-chat-app.herokuapp.com/";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
