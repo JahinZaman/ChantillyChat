@@ -1,12 +1,17 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, AddIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   FormControl,
   IconButton,
   Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Spinner,
   Text,
   Toast,
+  FormLabel,
   useToast,
 } from "@chakra-ui/react";
 import ScrollableChat from "./ScrollableChat";
@@ -28,6 +33,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
+  const [pic, setPic] = useState();
   const [isTyping, setIsTyping] = useState(false);
   const toast = useToast();
 
@@ -37,6 +43,82 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     if (!socketConnected) return;
   };
 
+  const postNewImage = async (pics) => {
+    if (pics === undefined) {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+
+    if (
+      pics.type === "image/jpeg" ||
+      pics.type === "image/png" ||
+      pics.type === "image/gif" ||
+      pics.type === "image/jfif"
+    ) {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "chat-app");
+      data.append("cloud_name", "jahz");
+      fetch("https://api.cloudinary.com/v1_1/jahz/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      try {
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+        setNewMessage("");
+        const { data } = await axios.post(
+          "/api/message",
+          {
+            content: pic,
+            chatId: selectedChat._id,
+          },
+          config
+        );
+
+        socket.emit("new message", data);
+
+        setMessages([...messages, data]);
+      } catch (error) {
+        toast({
+          title: "Error Occured!",
+          description: "Failed to send the Message",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+    } else {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+
+      return;
+    }
+  };
+
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
@@ -44,8 +126,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
   }, []);
-  const { user, selectedChat, setSelectedChat, notification, setNotification } =
-    ChatState();
+  const {
+    user,
+    setUser,
+    selectedChat,
+    setSelectedChat,
+    notification,
+    setNotification,
+  } = ChatState();
   const sendMessage = async (event) => {
     socket.emit("stop typing", selectedChat._id);
     if (event.key === "Enter" && newMessage) {
@@ -170,7 +258,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDirection="column"
             justifyContent="flex-end"
             p={3}
-            bg="lightgrey"
+            bg="lightgrey "
             width="100%"
             height="100%"
             borderRadius="lg"
@@ -193,26 +281,52 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             <FormControl
               onKeyDown={sendMessage}
               id="first-name"
-              isRequired
               mt={3}
+              display="flex"
             >
               {newMessage.length > 0 ? (
-                <div bg="black" display="flex" flexDirection="row">
-                  <Text color="white" fontWeight="bold">
+                <div bg="black">
+                  {/* <Text color="white" fontWeight="bold">
                     {user.name} is typing
-                  </Text>
+                  </Text> */}
                 </div>
               ) : (
                 <></>
               )}
-              <Input
-                variant="filled"
-                bg="#E0E0E0"
-                placeholder="Enter a message.."
-                value={newMessage}
-                onChange={typingHandler}
-                color="black"
-              />
+              <InputGroup size="lg" mt={2}>
+                <Input
+                  display="flex"
+                  flexDirection="row"
+                  variant="filled"
+                  bg="#E0E0E0"
+                  placeholder="Enter a message.."
+                  value={newMessage}
+                  onChange={typingHandler}
+                  color="black"
+                ></Input>
+                <InputLeftElement h="50px" width="50px">
+                  <FormLabel
+                    htmlFor="filePicker"
+                    fontSize="40px"
+                    marginLeft="20px"
+                    color="black"
+                  >
+                    +
+                  </FormLabel>
+                  <Input
+                    id="filePicker"
+                    type="file"
+                    p={1.5}
+                    accept="image/*"
+                    onChange={(e) => postNewImage(e.target.files[0])}
+                    visibility="hidden"
+                  ></Input>
+                  {/* <label htmlFor="filePicker" style={{ background:"grey", padding:"5px 10px" }}>
+My custom choose file label
+</label>
+<input id="filePicker" style={{visibility:"hidden"}} type={"file"}></input> */}
+                </InputLeftElement>
+              </InputGroup>
             </FormControl>
           </Box>
         </>

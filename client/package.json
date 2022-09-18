@@ -6,7 +6,7 @@
     "node": "16.15.1"
   },
   "private": true,
-  "proxy": "http://127.0.0.1:4000",
+  "proxy": "http://127.0.0.1:4000/",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.9",
     "@chakra-ui/react": "^2.3.1",

@@ -181,6 +181,7 @@ const Signup = () => {
         <Input
           type="file"
           p={1.5}
+          placeholder="+"
           accept="image/*"
           onChange={(e) => postDetails(e.target.files[0])}
         />

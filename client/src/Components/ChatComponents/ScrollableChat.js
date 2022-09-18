@@ -1,4 +1,4 @@
-import { Avatar, Tooltip } from "@chakra-ui/react";
+import { Avatar, Tooltip, Image } from "@chakra-ui/react";
 import React from "react";
 import ScrollableFeed from "react-scrollable-feed";
 import {
@@ -30,20 +30,36 @@ const ScrollableChat = ({ messages }) => {
                 />
               </Tooltip>
             )}
-            <span
-              style={{
-                backgroundColor: `${
-                  m.sender._id === user._id ? "red" : "blue"
-                }`,
-                marginLeft: isSameSenderMargin(messages, m, i, user._id),
-                marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
-                borderRadius: "20px",
-                padding: "5px 15px",
-                maxWidth: "75%",
-              }}
-            >
-              {m.content}
-            </span>
+            {m.content.includes("res.cloudinary.com") ? (
+              <Image
+                src={m.content}
+                alt="Image"
+                width="200px"
+                height="200px"
+                style={{
+                  marginLeft: isSameSenderMargin(messages, m, i, user._id),
+                  marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
+                  borderRadius: "20px",
+                  padding: "5px 15px",
+                  maxWidth: "75%",
+                }}
+              />
+            ) : (
+              <span
+                style={{
+                  backgroundColor: `${
+                    m.sender._id === user._id ? "red" : "blue"
+                  }`,
+                  marginLeft: isSameSenderMargin(messages, m, i, user._id),
+                  marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
+                  borderRadius: "20px",
+                  padding: "5px 15px",
+                  maxWidth: "75%",
+                }}
+              >
+                {m.content}
+              </span>
+            )}
           </div>
         ))}
     </ScrollableFeed>
