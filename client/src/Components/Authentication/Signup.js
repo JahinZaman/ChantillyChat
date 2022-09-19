@@ -5,7 +5,6 @@ import { VStack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useState } from "react";
-import { useHistory } from "react-router";
 import createBrowserHistory from "history/createBrowserHistory";
 
 const history = createBrowserHistory({ forceRefresh: true });
