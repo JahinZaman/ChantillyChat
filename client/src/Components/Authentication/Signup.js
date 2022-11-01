@@ -1,12 +1,14 @@
 import { Button } from "@chakra-ui/button";
+import { Icon } from "@chakra-ui/react";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
-import { useToast } from "@chakra-ui/toast";
+import { useToast, InputLeftElement } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import createBrowserHistory from "history/createBrowserHistory";
-
+import { FaEnvelope, FaLock, FaUserAlt, FaRegImage } from "react-icons/fa";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 const history = createBrowserHistory({ forceRefresh: true });
 
 const Signup = () => {
@@ -132,27 +134,44 @@ const Signup = () => {
 
   return (
     <VStack spacing="5px" color="lightgrey">
-      <FormControl id="first-name" isRequired>
-        <FormLabel>Name</FormLabel>
-        <Input
-          placeholder="Enter Your Name"
-          onChange={(e) => setName(e.target.value)}
-        />
+      <FormControl id="first-name" flexDir="row" isRequired>
+        <InputGroup size="lg" mt={2}>
+          <Input
+            placeholder="Name"
+            borderLeft="none"
+            borderRight="none"
+            borderTop="none"
+            value={name}
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+          />
+          <InputLeftElement h="50px" width="50px">
+            <Icon as={FaUserAlt} />
+          </InputLeftElement>
+        </InputGroup>
       </FormControl>
+
       <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
-        <Input
-          type="email"
-          placeholder="Enter Your Email Address"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <InputGroup size="lg" mt={2}>
+          <Input
+            type="email"
+            value={email}
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <InputLeftElement h="50px" width="50px">
+            <Icon as={FaEnvelope} />
+          </InputLeftElement>
+        </InputGroup>
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
-        <InputGroup size="md">
+        <InputGroup size="lg" mt={2}>
+          <InputLeftElement h="50px" width="50px">
+            <Icon as={FaLock} />
+          </InputLeftElement>
           <Input
             type={show ? "text" : "password"}
-            placeholder="Enter Password"
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem" color="black">
@@ -163,8 +182,10 @@ const Signup = () => {
         </InputGroup>
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Confirm Password</FormLabel>
-        <InputGroup size="md">
+        <InputGroup size="lg" mt={2}>
+          <InputLeftElement h="50px" width="50px">
+            <Icon as={FaLock} />
+          </InputLeftElement>
           <Input
             type={show ? "text" : "password"}
             placeholder="Confirm password"
@@ -178,24 +199,32 @@ const Signup = () => {
         </InputGroup>
       </FormControl>
       <FormControl id="pic">
-        <FormLabel>Upload your Picture</FormLabel>
-        <Input
-          type="file"
-          p={1.5}
-          placeholder="+"
-          accept="image/*"
-          onChange={(e) => postDetails(e.target.files[0])}
-        />
+        <InputGroup size="lg" mt={2}>
+          <InputRightElement h="50px" width="50px">
+            <Icon as={FaRegImage} w={8} h={8} />
+          </InputRightElement>
+          <Input
+            id="filePicker"
+            type="file"
+            p={1.5}
+            placeholder="Profile Picture"
+            accept="image/*"
+            onChange={(e) => postDetails(e.target.files[0])}
+          />
+
+          <InputLeftElement h="50px" w="50px"></InputLeftElement>
+        </InputGroup>
       </FormControl>
       <Button
-        colorScheme="red"
+        rightIcon={<ArrowRightIcon />}
+        bg="rgba(255,255,255,0)"
+        borderColor="white"
+        borderWidth="1px"
         width="100%"
-        style={{ marginTop: 15 }}
+        style={{ marginTop: 20 }}
         onClick={submitHandler}
         isLoading={picLoading}
-      >
-        Sign Up
-      </Button>
+      ></Button>
     </VStack>
   );
 };

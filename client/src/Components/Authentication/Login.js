@@ -4,7 +4,10 @@ import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { useState } from "react";
 import axios from "axios";
-import { useToast } from "@chakra-ui/react";
+import { useToast, InputLeftElement } from "@chakra-ui/react";
+import { FaEnvelope, FaLock } from "react-icons/fa";
+import { ArrowRightIcon } from "@chakra-ui/icons";
+import { Icon } from "@chakra-ui/react";
 import createBrowserHistory from "history/createBrowserHistory";
 
 const history = createBrowserHistory({ forceRefresh: true });
@@ -70,23 +73,32 @@ const Login = () => {
 
   return (
     <VStack spacing="10px" color="lightgrey">
-      <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
-        <Input
-          value={email}
-          type="email"
-          placeholder="Enter Your Email Address"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <FormControl id="email" flexDir="row" isRequired>
+        <InputGroup size="lg" mt={2}>
+          <Input
+            borderLeft="none"
+            borderRight="none"
+            borderTop="none"
+            value={email}
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <InputLeftElement h="50px" width="50px">
+            <Icon as={FaEnvelope} />
+          </InputLeftElement>
+        </InputGroup>
       </FormControl>
-      <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
-        <InputGroup size="md">
+      <FormControl flexDirection="row" id="password" isRequired>
+        <InputGroup size="lg" mt={2}>
+          <InputLeftElement h="50px" width="50px">
+            <Icon as={FaLock} />
+          </InputLeftElement>
           <Input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type={show ? "text" : "password"}
-            placeholder="Enter password"
+            placeholder="Password"
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -96,25 +108,15 @@ const Login = () => {
         </InputGroup>
       </FormControl>
       <Button
-        colorScheme="teal"
+        rightIcon={<ArrowRightIcon />}
+        bg="rgba(255,255,255,0)"
+        borderColor="white"
+        borderWidth="1px"
         width="100%"
-        style={{ marginTop: 15 }}
+        style={{ marginTop: 20 }}
         onClick={submitHandler}
         isLoading={loading}
-      >
-        Login
-      </Button>
-      <Button
-        variant="solid"
-        colorScheme="red"
-        width="100%"
-        onClick={() => {
-          setEmail("guest@example.com");
-          setPassword("123456");
-        }}
-      >
-        Get Guest User Credentials
-      </Button>
+      ></Button>
     </VStack>
   );
 };

@@ -1,15 +1,34 @@
-import { useToast, Box, Button, Stack, Text } from "@chakra-ui/react";
+import {
+  useToast,
+  Box,
+  Button,
+  Stack,
+  Text,
+  MenuItem,
+  Menu,
+  MenuList,
+  MenuButton,
+  Avatar,
+  MenuDivider,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import axios from "axios";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../../config/ChatLogics";
 import GroupChatModal from "./GroupChatModal";
+import ProfileModal from "./ProfileModal";
+import { useHistory } from "react-router-dom";
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const toast = useToast();
+  const history = useHistory();
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    history.push("/");
+  };
 
   const fetchChats = async () => {
     try {
@@ -102,6 +121,23 @@ const MyChats = ({ fetchAgain }) => {
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
                 </Text>
+                <Menu>
+                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                    <Avatar
+                      size="sm"
+                      cursor="pointer"
+                      name={user.name}
+                      src={user.pic}
+                    />
+                  </MenuButton>
+                  <MenuList>
+                    <ProfileModal user={user}>
+                      <MenuItem>My Profile</MenuItem>
+                    </ProfileModal>
+                    <MenuDivider></MenuDivider>
+                    <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+                  </MenuList>
+                </Menu>
               </Box>
             ))}
           </Stack>

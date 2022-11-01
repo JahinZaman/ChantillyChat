@@ -14,7 +14,9 @@ import Signup from "../Components/Authentication/Signup";
 import { useHistory } from "react-router-dom";
 const Homepage = () => {
   const history = useHistory();
-
+  const basicBoxStyles = {
+    boxSize: "550px",
+  };
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -27,34 +29,15 @@ const Homepage = () => {
   return (
     <Container maxW="xl" centerContent>
       <Box
-        d="flex"
-        justifyContent="center"
-        p={3}
-        bg={"rgba(58,59,58,255)"}
-        borderColor="rgba(58,59,58,255)"
-        borderRadius="lg"
+        bg="rgba(1,103,196,0)"
+        borderColor="rgba(0,0,0,255)"
         w="100%"
-        m="40px 0 15px 0"
-        borderWidth="1px"
-      >
-        <Text
-          fontSize="4xl"
-          color="rgb(211, 211, 211)"
-          textAlign="center"
-          fontFamily="Noto Sans"
-        >
-          Home
-        </Text>
-      </Box>
-      <Box
-        bg="rgba(58,59,58,255)"
-        borderColor="rgba(58,59,58,255)"
-        w="100%"
+        h="990px"
         p={4}
-        borderRadius="lg"
+        m="0 0 15px 1385px"
         borderWidth="1px"
       >
-        <Tabs variant="soft-rounded">
+        <Tabs variant="enclosed">
           <TabList mb="1em">
             <Tab width="50%" color="rgb(211, 211, 211)">
               Login
