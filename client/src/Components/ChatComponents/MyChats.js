@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import axios from "axios";
-import { AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronDownIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../../config/ChatLogics";
 import GroupChatModal from "./GroupChatModal";
@@ -63,10 +63,10 @@ const MyChats = ({ fetchAgain }) => {
       alignItems="center"
       p={3}
       height="102.5%"
-      bg="#36393f"
-      borderColor="#36393f"
+      bg="rgba(255,255,255,0)"
       w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
+      borderColor="#373535"
       borderWidth="1px"
     >
       <Box
@@ -76,7 +76,7 @@ const MyChats = ({ fetchAgain }) => {
         fontFamily="Noto Sans"
         display="flex"
         width="100%"
-        color="#cfddde"
+        bg="black"
         justifyContent="space-between"
         alignItems="center"
       >
@@ -97,7 +97,7 @@ const MyChats = ({ fetchAgain }) => {
         display="flex"
         flexDirection="column"
         p={3}
-        bg="lightgrey"
+        bg="#010411"
         width="100%"
         height="100%"
         borderRadius="lg"
@@ -109,8 +109,8 @@ const MyChats = ({ fetchAgain }) => {
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
+                bg={selectedChat === chat ? "#DADCE3" : "#230101"}
+                color={selectedChat === chat ? "black" : "white"}
                 px={3}
                 py={2}
                 borderRadius="lg"
@@ -122,20 +122,22 @@ const MyChats = ({ fetchAgain }) => {
                     : chat.chatName}
                 </Text>
                 <Menu>
-                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                  <MenuButton
+                    color="black"
+                    as={Button}
+                    rightIcon={<PlusSquareIcon />}
+                  >
                     <Avatar
                       size="sm"
                       cursor="pointer"
-                      name={user.name}
-                      src={user.pic}
+                      name={chat.users[0].name}
+                      src={chat.users[0].pic}
                     />
                   </MenuButton>
                   <MenuList>
-                    <ProfileModal user={user}>
-                      <MenuItem>My Profile</MenuItem>
+                    <ProfileModal user={chat.users[0]}>
+                      <MenuItem color="black">Profile</MenuItem>
                     </ProfileModal>
-                    <MenuDivider></MenuDivider>
-                    <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                   </MenuList>
                 </Menu>
               </Box>

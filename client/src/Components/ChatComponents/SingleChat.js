@@ -337,11 +337,7 @@ My custom choose file label
           justifyContent="center"
           height="100%"
           color="white"
-        >
-          <Text fontSize="4xl" pb={3} fontFamily="Noto Sans">
-            Such Empty
-          </Text>
-        </Box>
+        ></Box>
       )}
     </>
   );

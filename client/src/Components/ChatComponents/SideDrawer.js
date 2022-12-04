@@ -22,7 +22,7 @@ import {
   useToast,
   Spinner,
 } from "@chakra-ui/react";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon, ChatIcon } from "@chakra-ui/icons";
 import { ChatState } from "../../Context/ChatProvider";
 import ProfileModal from "./ProfileModal";
 import { useHistory } from "react-router-dom";
@@ -122,25 +122,19 @@ const SideDrawer = () => {
       <Box
         display="flex"
         justifyContent="space-between"
-        bg="#36393f"
+        bg="rgba=(255,255,255,0)"
         alignItems="center"
         w="100%"
         p="5px 10px 5px 10px"
-        borderWidth="5px"
-        borderColor="#36393f"
+        color="white"
       >
-        <Tooltip
-          label="Search Friends to chat with!"
-          hasArrow
-          placement="bottom-end"
-        >
-          <Button variant="ghost" onClick={onOpen}>
-            <i class="fas fa-search" color=""></i>
-            <Text display={{ base: "none", md: "flex" }} color="#cfddde" px="4">
-              Search
-            </Text>
-          </Button>
-        </Tooltip>
+        <Button variant="ghost" color="yellow" onClick={onOpen}>
+          <ChatIcon></ChatIcon>
+          <Text display={{ base: "none", md: "flex" }} px="4">
+            Start a conversation
+          </Text>
+        </Button>
+
         <Text size="2xl" fontFamily="Noto Sans">
           <div>
             <Menu>
@@ -151,10 +145,11 @@ const SideDrawer = () => {
                 />
                 <BellIcon fontSize="2xl" m={1}></BellIcon>
               </MenuButton>
-              <MenuList textAlign="center">
+              <MenuList textAlign="center" color="black">
                 {!notification.length && "No New Messages"}
                 {notification.map((notif) => (
                   <MenuItem
+                    color="black"
                     key={notif._id}
                     onClick={() => {
                       setSelectedChat(notif.chat);
@@ -169,7 +164,11 @@ const SideDrawer = () => {
               </MenuList>
             </Menu>
             <Menu>
-              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              <MenuButton
+                as={Button}
+                color="black"
+                rightIcon={<ChevronDownIcon />}
+              >
                 <Avatar
                   size="sm"
                   cursor="pointer"
@@ -179,10 +178,12 @@ const SideDrawer = () => {
               </MenuButton>
               <MenuList>
                 <ProfileModal user={user}>
-                  <MenuItem>My Profile</MenuItem>
+                  <MenuItem color="black">My Profile</MenuItem>
                 </ProfileModal>
                 <MenuDivider></MenuDivider>
-                <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+                <MenuItem color="black" onClick={logoutHandler}>
+                  Logout
+                </MenuItem>
               </MenuList>
             </Menu>
           </div>
